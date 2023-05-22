@@ -2,6 +2,7 @@ package ru.vinogradov.kataBoot.conrtoller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,7 @@ import ru.vinogradov.kataBoot.service.UserServiceImp;
 
 
 import java.security.Principal;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -53,16 +53,26 @@ public class AdminController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editUser (ModelMap model, @PathVariable("id") Long id) {
+    public String editUser (Model role, @PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.show(id));
-        List<Role> listOfRoles = roleService.getAllRoles();
-        model.addAttribute("listOfRoles", listOfRoles);
+//        List<Role> listOfRoles = roleService.getAllRoles();
+        role.addAttribute("listOfRoles", roleService.getAllRoles());
+//        List<Role> roles1 = new ArrayList<>(Collections.singleton(new Role("ROLE_ADMIN")));
+//        int roleValue1 = 1;
+//        int roleValue2 = 2;
+//        if (userService.show(id).getRoles() == roles1) {
+//            model.addAttribute("valueRole", roleValue1);
+//        } else {
+//            model.addAttribute("valueRole", roleValue2);
+//        }
         return "edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute ("user") User user, @PathVariable("id") Long id) {
-        userService.update(user);
+    public String update(ModelMap model, @ModelAttribute ("user") User user, @PathVariable("id") Long id) {
+        List<Role> listOfRoles = roleService.getAllRoles();
+        model.addAttribute("listOfRoles", listOfRoles);
+        userService.update(user, id);
         return "redirect:/admin/";
     }
     @DeleteMapping("/{id}")

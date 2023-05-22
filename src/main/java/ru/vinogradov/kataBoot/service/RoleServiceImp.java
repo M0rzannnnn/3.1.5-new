@@ -2,6 +2,7 @@ package ru.vinogradov.kataBoot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vinogradov.kataBoot.model.Role;
 import ru.vinogradov.kataBoot.repositories.RoleRepository;
 
@@ -16,6 +17,7 @@ public class RoleServiceImp implements RoleService {
         this.roleRepository = roleRepository;
     }
 
+    @Override
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }

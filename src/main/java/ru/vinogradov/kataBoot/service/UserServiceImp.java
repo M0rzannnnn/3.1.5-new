@@ -17,6 +17,7 @@ import ru.vinogradov.kataBoot.repositories.UserRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -56,12 +57,25 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Transactional
-    public void update (User user) {
-        if (user.getRoles() == null) {
-            user.setRoles(show(user.getId()).getRoles());
+    public void update (User user, Long id) {
+        Collection<Role> roles = user.getRoles();
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User editUser = optionalUser.get();
+            editUser.setId(user.getId());
+            editUser.setName(user.getName());
+            editUser.setLastName(user.getLastName());
+            editUser.setAge(user.getAge());
+            editUser.setName(user.getName());
+            if(roles == null){
+            } else {
+                editUser.setRoles(user.getRoles());
+            }
+            if (!editUser.getPassword().equals(user.getPassword())) {
+                editUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+            userRepository.save(editUser);
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
     }
 
     @Transactional

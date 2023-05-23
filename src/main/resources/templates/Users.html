@@ -130,12 +130,17 @@
                                                                            required minlength="2" maxlength="20"/>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="roleUpdate"
-                                                                           class="col-form-label">role</label>
-                                                                    <input type="text"
-                                                                           th:value="${user.getRoles}" name="role"
-                                                                           class="form-control" id="roleUpdate"
-                                                                           required minlength="2" maxlength="20"/>
+                                                                    <label class="container-fluid "
+                                                                           for="rolesUpdate">Role</label>
+                                                                    <select class="form-control"
+                                                                            id="rolesUpdate"
+                                                                            name="roles" multiple>
+                                                                        <option th:each="role : ${listOfRoles}"
+                                                                        th:selected="${role.getId()}"
+                                                                        th:value="${role.getId()}"
+                                                                        th:text="${role.getAuthority()}">
+                                                                        </option>
+                                                                    </select>
                                                                 </div>
 
 

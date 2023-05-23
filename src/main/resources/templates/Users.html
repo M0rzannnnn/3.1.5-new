@@ -124,7 +124,7 @@
                                                                 <div class="mb-3">
                                                                     <label for="passwordUpdate"
                                                                            class="col-form-label">password</label>
-                                                                    <input type="password"
+                                                                    <input type="password" th:value="${user.getPassword}"
                                                                            name="password"
                                                                            class="form-control" id="passwordUpdate"
                                                                            required minlength="2" maxlength="20"/>
@@ -135,58 +135,17 @@
                                                                     <select class="form-control"
                                                                             id="rolesUpdate"
                                                                             name="roles" multiple>
+<!--                                                                        <option th:each="role : ${listOfRoles}"-->
+<!--                                                                        th:selected="${role.getId()}"-->
+<!--                                                                        th:value="${role.getId()}"-->
+<!--                                                                        th:text="${role.getAuthority()}">-->
+<!--                                                                        </option>-->
                                                                         <option th:each="role : ${listOfRoles}"
-                                                                        th:selected="${role.getId()}"
-                                                                        th:value="${role.getId()}"
-                                                                        th:text="${role.getAuthority()}">
+                                                                                th:value="${role.getId()}"
+                                                                                th:text="${role.getName()}">Role name
                                                                         </option>
                                                                     </select>
                                                                 </div>
-
-
-
-
-<!--                                                                <div class="mb-3">-->
-<!--                                                                    <label class="container-fluid"-->
-<!--                                                                           for="rolesUpdate">role</label>-->
-<!--                                                                    <select id="rolesUpdate" class="form-select col-md-5"-->
-<!--                                                                            th:value="${user.getRoles()}" name="roles" required="required"-->
-<!--                                                                            multiple="multiple" size="2">-->
-<!--&lt;!&ndash;                                                                        <option selected="selected" value="${valueRole}">ROLE_NOW</option>&ndash;&gt;-->
-<!--                                                                        <option value="1">ROLE_USER</option>-->
-<!--                                                                        <option value="2">ROLE_ADMIN</option>-->
-<!--&lt;!&ndash;                                                                        <option selected="selected" value="2">ROLE_ADMIN</option>&ndash;&gt;-->
-<!--                                                                    </select>-->
-<!--                                                                </div>-->
-
-
-<!--                                                                <div class="mb-3">-->
-<!--                                                                    <label for="rolesUpdate">Role</label>-->
-<!--                                                                    <select class="form-control" id="rolesUpdate"-->
-<!--                                                                            name="roles"-->
-<!--                                                                            multiple="multiple">-->
-<!--                                                                        <option th:each="role : ${listOfRoles}"-->
-<!--                                                                                th:value="${role.getId()}"-->
-<!--                                                                                th:text="${role.getName()}">Role name-->
-<!--                                                                        </option>-->
-<!--                                                                    </select>-->
-<!--                                                                </div>-->
-
-
-<!--                                                                <label class="form-label mb-0 fw-bold">Role</label>-->
-<!--                                                                <select multiple size="2" class="form-select form-select-sm mb-3"-->
-<!--                                                                        name="roles">-->
-<!--                                                                    <option value="1">USER</option>-->
-<!--                                                                    <option th:value="${user.getRoles}" th:text = "${user.getRoles}"> role now </option>-->
-<!--                                                                    <option value="2">ADMIN</option>-->
-<!--                                                                </select>-->
-
-<!--                                                                <select size="2" multiple name="roles" >-->
-<!--                                                                    <option value="1">ADMIN</option>-->
-<!--                                                                    <option selected="selected" value="2">USER</option>-->
-<!--                                                                </select>-->
-
-
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"

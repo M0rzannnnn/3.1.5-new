@@ -56,16 +56,7 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String editUser (Model role, @PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.show(id));
-//        List<Role> listOfRoles = roleService.getAllRoles();
         role.addAttribute("listOfRoles", roleService.getAllRoles());
-//        List<Role> roles1 = new ArrayList<>(Collections.singleton(new Role("ROLE_ADMIN")));
-//        int roleValue1 = 1;
-//        int roleValue2 = 2;
-//        if (userService.show(id).getRoles() == roles1) {
-//            model.addAttribute("valueRole", roleValue1);
-//        } else {
-//            model.addAttribute("valueRole", roleValue2);
-//        }
         return "edit";
     }
 
@@ -80,6 +71,5 @@ public class AdminController {
     public String  deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/admin/";
-
     }
 }

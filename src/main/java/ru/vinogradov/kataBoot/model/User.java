@@ -18,132 +18,129 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "name")
-    private String name;
+    @Column(name = "username")
+    private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "age")
-    private Long age;
+    private Integer age;
 
+    @Column(name = "email")
+    private String email;
 
-    @ManyToMany (fetch = FetchType.LAZY)
-    @JoinTable (name = "users_roles",
-                joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Collection<Role> roles;
 
-    public User() {}
+    public User() {
+    }
 
-
-    public User(String name, String lastName, Long age, String password, String email, List<Role> roles) {
-        this.name = name;
+    public User(Long id, String firstName, String lastName, Integer age, String password, String email) {
+        this.id = id;
+        this.firstName = firstName;
         this.lastName = lastName;
+        this.password = password;
         this.age = age;
         this.email = email;
-        this.password = password;
-        this.roles = roles;
-
-    }
-    public String getEmail() { return email; }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return name;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Long getAge() {
-        return age;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-    public List<Role> getRoles() {
-        return roles;
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUsername() {
+        return this.email;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public Integer getAge() {
+        return this.age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getLastName() {
+        return this.lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public void setAge(Long age) {
-        this.age = age;
+    public String getPassword() {
+        return this.password;
     }
 
-    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Collection<Role> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                ", roles=" + roles.toString() +
-                '}';
+        return "User{id=" + this.id +
+                ", firstName='" + this.firstName +
+                "', lastName='" + this.lastName +
+                "', password='" + this.password +
+                "', age='" + this.age +
+                "', email='" + this.email + "}";
+
     }
 
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.getRoles();
+    }
 }

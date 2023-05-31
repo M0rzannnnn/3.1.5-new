@@ -1,78 +1,94 @@
 package ru.vinogradov.kataBoot.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
-
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column (name = "name")
+    private long id;
+
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "value")
-    private String value;
-
-//    public void setUsers(Collection<User> users) {
-//        this.users = users;
-//    }
-//
-//    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-//    private Collection<User> users;
-
-
-    public Role(Long id) {
-        this.id = id;
-    }
-
-    public Role(Long id, String name, String value) {
-        this.id = id;
-        this.name = name;
-        this.value = value;
-    }
+    @Transient
+    @ManyToMany(mappedBy = "roles")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
+    )
+    private Set<User> users;
 
     public Role() {
     }
 
-//    public Collection<User> getUsers() {
-//        return users;
-//    }
+    public Role(long id) {
+        this.id = id;
+    }
+
+    public Role(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
     }
-    public String getValue() {
-        return value;
-    }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
     public void setName(String name) {
         this.name = name;
     }
 
-    public Long getId() {
-        return id;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override
     public String toString() {
-        return name;
+        if (this.name.equals("ROLE_ADMIN")) {
+            return "Admin";
+        } else {
+            return "User";
+        }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role role = (Role) o;
+        return id == role.id && Objects.equals(name, role.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
     @Override
     public String getAuthority() {
-        return this.getName();
+        return getName();
     }
 }
